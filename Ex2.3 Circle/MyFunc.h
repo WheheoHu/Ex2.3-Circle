@@ -26,9 +26,6 @@ using namespace std;
 void InitWindow();
 //鼠标以及显示，在main函数中调用
 void MainGraphFunc();
-
-
-
 //渲染
 void RenderScene();
 
