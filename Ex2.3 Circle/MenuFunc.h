@@ -13,6 +13,12 @@ using namespace std;
 #define RED 1
 #define GREEN 2
 #define	BLUE 3
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 480
+//生成圆的角度增量（角度值
+#define CIRCLE_ANGLE_STEP 10
+//圆的半径
+#define CIRCLE_R 50.0
 
 static int iColor = WHITE;
 static CoordinateXY   coorxy;
@@ -29,6 +35,8 @@ void savedata(vector<CoordinateXY> datapoint);
 void loaddata(fstream &datafile);
 //清屏&重置数据
 void removeall(fstream &datafile);
+//画圆
+void RenderACircle(int AngleStep);
 //保存xy数据
 void setXY(int x, int y);
 
@@ -53,7 +61,9 @@ void InitMenu()
 	glutAddMenuEntry("SAVE", 4);
 	glutAddMenuEntry("LOAD", 5);
 	glutAddMenuEntry("CLEAN ALL!", 6);
+	glutAddMenuEntry("Circle50", 8);
 	glutAddMenuEntry("EXIT", 7);
+
 }
 void processmenu(int MenuID) {
 
@@ -95,6 +105,11 @@ void processmenu(int MenuID) {
 	case 7: {
 		exit(0);
 		break; }
+
+	case 8: {
+		RenderACircle(CIRCLE_ANGLE_STEP);
+		break;
+	}
 	}
 }
 
@@ -156,4 +171,22 @@ void removeall(fstream & datafile)
 	datafile.close();
 	loaddata(datafile);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+inline void RenderACircle(int AngleStep)
+{
+	int coorx;
+	int coory;
+	glPointSize(2);
+	glBegin(GL_POINTS);
+	for (float angle = 0; angle < 360; angle += float(AngleStep))
+	{
+		coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
+		coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
+		cout << coorx << " " << coory << endl;
+		glVertex2i(coorx, coory);
+
+	}
+	glEnd();
+	glutPostRedisplay();
 }
