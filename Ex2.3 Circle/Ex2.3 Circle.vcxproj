@@ -115,6 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CoordinateXY.h" />
+    <ClInclude Include="glut.h" />
+    <ClInclude Include="MenuFunc.h" />
+    <ClInclude Include="MouseFunc.h" />
+    <ClInclude Include="MyFunc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
