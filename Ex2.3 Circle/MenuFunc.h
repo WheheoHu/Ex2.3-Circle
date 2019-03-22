@@ -16,7 +16,7 @@ using namespace std;
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 //生成圆的角度增量（角度值
-#define CIRCLE_ANGLE_STEP 10
+#define CIRCLE_POINT_NUM 50
 //圆的半径
 #define CIRCLE_R 50.0
 
@@ -36,7 +36,7 @@ void loaddata(fstream &datafile);
 //清屏&重置数据
 void removeall(fstream &datafile);
 //画圆
-void RenderACircle(int AngleStep);
+void RenderACircle(int CiclePointNum);
 //保存xy数据
 void setXY(int x, int y);
 
@@ -107,7 +107,7 @@ void processmenu(int MenuID) {
 		break; }
 
 	case 8: {
-		RenderACircle(CIRCLE_ANGLE_STEP);
+		RenderACircle(CIRCLE_POINT_NUM);
 		break;
 	}
 	}
@@ -173,19 +173,18 @@ void removeall(fstream & datafile)
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-inline void RenderACircle(int AngleStep)
+inline void RenderACircle(int CiclePointNum)
 {
 	int coorx;
 	int coory;
 	glPointSize(2);
 	glBegin(GL_POINTS);
-	for (float angle = 0; angle < 360; angle += float(AngleStep))
+	for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
 	{
 		coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
 		coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
 		cout << coorx << " " << coory << endl;
 		glVertex2i(coorx, coory);
-
 	}
 	glEnd();
 	glutPostRedisplay();
