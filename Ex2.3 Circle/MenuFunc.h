@@ -27,8 +27,11 @@ fstream datafile;
 
 //初始化菜单
 void InitMenu();
+
+//点颜色子菜单回调
 void ColorMenu(int MenuID);
-//右键菜单更改颜色
+void CircleMenu_CB(int MenuID);
+//主菜单回调
 void Main_menu(int MenuID);
 //保存数据
 void savedata(vector<CoordinateXY> datapoint);
@@ -52,10 +55,10 @@ void setXY(int x, int y) {
 
 void InitMenu()
 {
-	int MainMenu, ColorPointMenu;
+	int MainMenu, ColorPointMenu, CircleMenu;
 
 	ColorPointMenu = glutCreateMenu(ColorMenu);
-	glutSetMenu(ColorPointMenu);
+	//glutSetMenu(ColorPointMenu);
 	glutAddMenuEntry("White", 0);
 	glutAddMenuEntry("Red", 1);
 	glutAddMenuEntry("Green", 2);
@@ -64,18 +67,22 @@ void InitMenu()
 	glutAddMenuEntry("LOAD", 5);
 	glutAddMenuEntry("CLEAN ALL!", 6);
 
+	CircleMenu = glutCreateMenu(CircleMenu_CB);
+	glutAddMenuEntry("Circle50", 1);
+	glutAddMenuEntry("CircleLines", 2);
 
 
 	MainMenu = glutCreateMenu(Main_menu);
-	glutSetMenu(MainMenu);
+	//glutSetMenu(MainMenu);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-	
 	glutAddSubMenu("ColorPoint", ColorPointMenu);
-	glutAddMenuEntry("Circle50", 1);
+	glutAddSubMenu("Circles", CircleMenu);
 	glutAddMenuEntry("EXIT", 0);
-	
+
 
 }
+
+
 
 void ColorMenu(int MenuID) {
 	switch (MenuID)
@@ -116,6 +123,17 @@ void ColorMenu(int MenuID) {
 	}
 }
 
+inline void CircleMenu_CB(int MenuID)
+{
+	switch (MenuID)
+	{
+	case 1: {
+		RenderACircle(CIRCLE_POINT_NUM);
+		break;
+	}
+	}
+}
+
 void Main_menu(int MenuID) {
 	switch (MenuID)
 	{
@@ -123,10 +141,7 @@ void Main_menu(int MenuID) {
 		exit(0);
 		break; }
 
-	case 1: {
-		RenderACircle(CIRCLE_POINT_NUM);
-		break;
-	}
+	
 	}
 
 }
