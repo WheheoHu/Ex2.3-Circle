@@ -36,7 +36,7 @@ void RenderScene();
 void InitWindow()
 {
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	glutCreateWindow("simple");
+	glutCreateWindow("CircleModeADD");
 	InitMenu();
 	glMatrixMode(GL_PROJECTION);// sets the current matrix to projection
 	glLoadIdentity();//multiply the current matrix by identity matrix
