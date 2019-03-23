@@ -27,8 +27,9 @@ fstream datafile;
 
 //初始化菜单
 void InitMenu();
+void ColorMenu(int MenuID);
 //右键菜单更改颜色
-void processmenu(int MenuID);
+void Main_menu(int MenuID);
 //保存数据
 void savedata(vector<CoordinateXY> datapoint);
 //读取Data.txt数据
@@ -51,9 +52,10 @@ void setXY(int x, int y) {
 
 void InitMenu()
 {
-	int m_menuID = glutCreateMenu(processmenu);
-	glutSetMenu(m_menuID);
-	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	int MainMenu, ColorPointMenu;
+
+	ColorPointMenu = glutCreateMenu(ColorMenu);
+	glutSetMenu(ColorPointMenu);
 	glutAddMenuEntry("White", 0);
 	glutAddMenuEntry("Red", 1);
 	glutAddMenuEntry("Green", 2);
@@ -61,12 +63,21 @@ void InitMenu()
 	glutAddMenuEntry("SAVE", 4);
 	glutAddMenuEntry("LOAD", 5);
 	glutAddMenuEntry("CLEAN ALL!", 6);
-	glutAddMenuEntry("Circle50", 8);
-	glutAddMenuEntry("EXIT", 7);
+
+
+
+	MainMenu = glutCreateMenu(Main_menu);
+	glutSetMenu(MainMenu);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	
+	glutAddSubMenu("ColorPoint", ColorPointMenu);
+	glutAddMenuEntry("Circle50", 1);
+	glutAddMenuEntry("EXIT", 0);
+	
 
 }
-void processmenu(int MenuID) {
 
+void ColorMenu(int MenuID) {
 	switch (MenuID)
 	{
 	case 0: {
@@ -102,16 +113,24 @@ void processmenu(int MenuID) {
 		removeall(datafile);
 		break;
 	}
-	case 7: {
+	}
+}
+
+void Main_menu(int MenuID) {
+	switch (MenuID)
+	{
+	case 0: {
 		exit(0);
 		break; }
 
-	case 8: {
+	case 1: {
 		RenderACircle(CIRCLE_POINT_NUM);
 		break;
 	}
 	}
+
 }
+
 
 
 void savedata(vector<CoordinateXY> datapoint)
