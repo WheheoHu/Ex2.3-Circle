@@ -9,21 +9,21 @@
 
 using namespace std;
 
-#define WHITE 0
-#define RED 1
-#define GREEN 2
-#define	BLUE 3
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+constexpr auto WHITE = 0;
+constexpr auto RED = 1;
+constexpr auto GREEN = 2;
+constexpr auto BLUE = 3;
+constexpr auto WINDOW_WIDTH = 640;
+constexpr auto WINDOW_HEIGHT = 480;
 
 //生成圆的角度增量（角度值
-#define CIRCLE_POINT_NUM 50
+constexpr auto CIRCLE_POINT_NUM = 50;
 //圆的半径
-#define CIRCLE_R 100.0
+constexpr auto CIRCLE_R = 100.0;
 //线段模式
-#define GL_LINES_MODE 1
-#define GL_LINE_STRIP_MODE 2
-#define GL_LINE_LOOP_MODE 3
+constexpr auto GL_LINES_MODE = 1;
+constexpr auto GL_LINE_STRIP_MODE = 2;
+constexpr auto GL_LINE_LOOP_MODE = 3;
 
 static int iColor = WHITE;
 static CoordinateXY   coorxy;
@@ -34,10 +34,13 @@ fstream datafile;
 void InitMenu();
 
 //点颜色子菜单回调
-void ColorMenu(int MenuID);
+void ColorPointMenu_CB(int MenuID);
+//画圆子菜单回调
 void CircleMenu_CB(int MenuID);
+//LineMode submenu
+void CircleLineModeMenu_CB(int MenuID);
 //主菜单回调
-void Main_menu(int MenuID);
+void MainMenu_CB(int MenuID);
 //保存数据
 void savedata(vector<CoordinateXY> datapoint);
 //读取Data.txt数据
@@ -61,9 +64,9 @@ void setXY(int x, int y) {
 
 void InitMenu()
 {
-	int MainMenu, ColorPointMenu, CircleMenu;
+	int MainMenu, ColorPointMenu, CircleMenu, CircleLineModeMenu;
 
-	ColorPointMenu = glutCreateMenu(ColorMenu);
+	ColorPointMenu = glutCreateMenu(ColorPointMenu_CB);
 	//glutSetMenu(ColorPointMenu);
 	glutAddMenuEntry("White", 0);
 	glutAddMenuEntry("Red", 1);
@@ -73,12 +76,16 @@ void InitMenu()
 	glutAddMenuEntry("LOAD", 5);
 	glutAddMenuEntry("CLEAN ALL!", 6);
 
+	CircleLineModeMenu = glutCreateMenu(CircleLineModeMenu_CB);
+	glutAddMenuEntry("GL_LINES", 1);
+	glutAddMenuEntry("GL_LINE_STRIP", 2);
+	glutAddMenuEntry("GL_LINE_LOOP", 3);
+
 	CircleMenu = glutCreateMenu(CircleMenu_CB);
 	glutAddMenuEntry("Circle50", 1);
-	glutAddMenuEntry("CircleLines", 2);
+	glutAddSubMenu("CircleLineMode", CircleLineModeMenu);
 
-
-	MainMenu = glutCreateMenu(Main_menu);
+	MainMenu = glutCreateMenu(MainMenu_CB);
 	//glutSetMenu(MainMenu);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	glutAddSubMenu("ColorPoint", ColorPointMenu);
@@ -88,7 +95,7 @@ void InitMenu()
 
 }
 
-inline void ColorMenu(int MenuID) {
+inline void ColorPointMenu_CB(int MenuID) {
 	switch (MenuID)
 	{
 	case 0: {
@@ -142,7 +149,26 @@ inline void CircleMenu_CB(int MenuID)
 	}
 }
 
-void Main_menu(int MenuID) {
+inline void CircleLineModeMenu_CB(int MenuID)
+{
+	switch (MenuID)
+	{
+	case 1: {
+		RenderACircle(CIRCLE_POINT_NUM, GL_LINES_MODE);
+		break;
+	}
+	case 2: {
+		RenderACircle(CIRCLE_POINT_NUM, GL_LINE_STRIP_MODE);
+		break;
+	}
+	case 3: {
+		RenderACircle(CIRCLE_POINT_NUM, GL_LINE_LOOP_MODE);
+		break;
+	}
+	}
+}
+
+void MainMenu_CB(int MenuID) {
 	switch (MenuID)
 	{
 	case 0: {
@@ -219,7 +245,7 @@ inline void RenderACircle(int CiclePointNum)
 	int coory;
 	glPointSize(2);
 	glBegin(GL_POINTS);
-	for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
+	for (auto angle = 0.; angle <= 360; angle += 360. / CiclePointNum)
 	{
 		coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
 		coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
@@ -235,10 +261,10 @@ inline void RenderACircle(int CiclePointNum, int CicleLineMode)
 	int coorx;
 	int coory;
 	glPointSize(2);
-	if (CicleLineMode==GL_LINES_MODE)
+	if (CicleLineMode == GL_LINES_MODE)
 	{
 		glBegin(GL_LINES);
-		for (float angle = 0; angle < 360; angle += 360. / CiclePointNum)
+		for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
 		{
 			coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
 			coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
@@ -250,7 +276,7 @@ inline void RenderACircle(int CiclePointNum, int CicleLineMode)
 	else if (CicleLineMode == GL_LINE_STRIP_MODE)
 	{
 		glBegin(GL_LINE_STRIP);
-		for (float angle = 0; angle < 360; angle += 360. / CiclePointNum)
+		for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
 		{
 			coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
 			coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
@@ -259,10 +285,10 @@ inline void RenderACircle(int CiclePointNum, int CicleLineMode)
 		}
 		glEnd();
 	}
-	else if(CicleLineMode==GL_LINE_LOOP_MODE)
+	else if (CicleLineMode == GL_LINE_LOOP_MODE)
 	{
 		glBegin(GL_LINE_LOOP);
-		for (float angle = 0; angle < 360; angle += 360. / CiclePointNum)
+		for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
 		{
 			coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
 			coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
