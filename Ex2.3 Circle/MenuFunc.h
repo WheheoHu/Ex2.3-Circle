@@ -17,7 +17,7 @@ constexpr auto WINDOW_WIDTH = 640;
 constexpr auto WINDOW_HEIGHT = 480;
 
 //生成圆的角度增量（角度值
-constexpr auto CIRCLE_POINT_NUM = 50;
+constexpr auto CIRCLE_POINT_NUM = 10;
 //圆的半径
 constexpr auto CIRCLE_R = 100.0;
 //线段模式
