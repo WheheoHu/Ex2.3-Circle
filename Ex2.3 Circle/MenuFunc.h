@@ -16,8 +16,9 @@ constexpr auto BLUE = 3;
 constexpr auto WINDOW_WIDTH = 640;
 constexpr auto WINDOW_HEIGHT = 480;
 
+constexpr auto PI = 3.14159;
 //生成圆的角度增量（角度值
-constexpr auto CIRCLE_POINT_NUM = 10;
+constexpr auto CIRCLE_POINT_NUM = 50;
 //圆的半径
 constexpr auto CIRCLE_R = 100.0;
 //线段模式
@@ -245,12 +246,13 @@ inline void RenderACircle(int CiclePointNum)
 	int coory;
 	glPointSize(2);
 	glBegin(GL_POINTS);
-	for (auto angle = 0.; angle <= 360; angle += 360. / CiclePointNum)
+	for (auto angle = 0.; angle < 360; angle += 360. / CiclePointNum)
 	{
-		coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
-		coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
+
+		coorx = CIRCLE_R * cos(angle*PI / 180) + WINDOW_WIDTH / 2;
+		coory = CIRCLE_R * sin(angle*PI / 180) + WINDOW_HEIGHT / 2;
 		cout << coorx << " " << coory << endl;
-		glVertex2i(coorx, coory);
+		glVertex2i(coorx,  coory);
 	}
 	glEnd();
 	glutPostRedisplay();
@@ -264,10 +266,10 @@ inline void RenderACircle(int CiclePointNum, int CicleLineMode)
 	if (CicleLineMode == GL_LINES_MODE)
 	{
 		glBegin(GL_LINES);
-		for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
+		for (float angle = 0; angle < 360; angle += 360. / CiclePointNum)
 		{
-			coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
-			coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
+			coorx = CIRCLE_R * cos(angle*PI / 180) + WINDOW_WIDTH / 2;
+			coory = CIRCLE_R * sin(angle*PI / 180) + WINDOW_HEIGHT / 2;
 			cout << coorx << " " << coory << endl;
 			glVertex2i(coorx, coory);
 		}
@@ -276,10 +278,10 @@ inline void RenderACircle(int CiclePointNum, int CicleLineMode)
 	else if (CicleLineMode == GL_LINE_STRIP_MODE)
 	{
 		glBegin(GL_LINE_STRIP);
-		for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
+		for (float angle = 0; angle < 360; angle += 360. / CiclePointNum)
 		{
-			coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
-			coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
+			coorx = CIRCLE_R * cos(angle*PI / 180) + WINDOW_WIDTH / 2;
+			coory = CIRCLE_R * sin(angle*PI / 180) + WINDOW_HEIGHT / 2;
 			cout << coorx << " " << coory << endl;
 			glVertex2i(coorx, coory);
 		}
@@ -288,10 +290,10 @@ inline void RenderACircle(int CiclePointNum, int CicleLineMode)
 	else if (CicleLineMode == GL_LINE_LOOP_MODE)
 	{
 		glBegin(GL_LINE_LOOP);
-		for (float angle = 0; angle <= 360; angle += 360. / CiclePointNum)
+		for (float angle = 0; angle < 360; angle += 360. / CiclePointNum)
 		{
-			coorx = CIRCLE_R * cos(angle) + WINDOW_WIDTH / 2;
-			coory = CIRCLE_R * sin(angle) + WINDOW_HEIGHT / 2;
+			coorx = CIRCLE_R * cos(angle*PI / 180) + WINDOW_WIDTH / 2;
+			coory = CIRCLE_R * sin(angle*PI / 180) + WINDOW_HEIGHT / 2;
 			cout << coorx << " " << coory << endl;
 			glVertex2i(coorx, coory);
 		}
